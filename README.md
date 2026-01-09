@@ -57,6 +57,6 @@ The agent reads these observability payloads from a low-latency export directory
 - Detects anomalies in metrics, pods, and databases
 - Correlates anomalies across services
 - Generates RCA (V1/V2) and LLM-assisted RCA (FlashRAG V3)
-- Generates action recommendations (scale pods, alert DB issues)
+- Generates action recommendations (such as scale pods, alert DB issues etc.)
 - Supports configurable auto-scaling via agent_config.json
 - Runs in Control Plane mode: analyzes all collected data without performing destructive actions

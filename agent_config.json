@@ -1,0 +1,11 @@
+{
+  "auto_scale": {
+    "enabled": false,
+    "services": {
+      "newbee-mall": {
+        "min_replicas": 3,
+        "require_conditions": ["POD_INSUFFICIENT"]
+      }
+    }
+  }
+}

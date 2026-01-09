@@ -20,3 +20,43 @@ The focus application is **newbee-mall**, an e-commerce platform deployed on a K
   - RCA Engine (V1 / V2)
   - Policy & Decision Layer
   - FlashRAG V3 (LLM-based RCA)
+
+## Layer Details
+
+### newbee-mall (K8s workloads)
+- Collects metrics (CPU, latency, saturation)
+- Logs (application + container logs)
+- Request-level traces
+
+### SigNoz (OpenTelemetry-based Observability)
+- Receives metrics, logs, traces from newbee-mall
+- Exposes Prometheus-compatible metrics for AIOps agent
+
+### AIOps Data Preparation
+- Low-latency export of collected observability data
+- Generates gzipped JSON payloads for the agent
+
+### AIOps Agent (Control Plane)
+- **Detectors**: Metrics, Pod status, Database health
+- **Correlator**: Links anomalies across services
+- **RCA Engine (V1/V2)**: Rule-based root cause analysis
+- **Policy & Decision Layer**: Generates actionable recommendations
+- **FlashRAG V3**: LLM-based RCA for contextual insights
+
+## Monitoring Data Sources
+
+- **Metrics**: Collected via OpenTelemetry, exported to SigNoz. Includes CPU usage, request latency, pod saturation.
+- **Logs**: Application logs (newbee-mall) and container logs collected via SigNoz agent.
+- **Traces**: Distributed traces at request level collected via OpenTelemetry SDK instrumented in newbee-mall.
+- **Database Health**: TCP check to MySQL; optionally include query latency metrics.
+
+The agent reads these observability payloads from a low-latency export directory and performs anomaly detection and RCA.
+
+## AIOps Agent Features
+
+- Detects anomalies in metrics, pods, and databases
+- Correlates anomalies across services
+- Generates RCA (V1/V2) and LLM-assisted RCA (FlashRAG V3)
+- Generates action recommendations (scale pods, alert DB issues)
+- Supports configurable auto-scaling via agent_config.json
+- Runs in Control Plane mode: analyzes all collected data without performing destructive actions
